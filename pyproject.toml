@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mailcheck-vps"
+version = "0.1.0"
+description = "Read-only mail deliverability diagnosis from inside the VPS (Postfix + OpenDKIM + DNS)"
+license = {text = "Apache-2.0"}
+requires-python = ">=3.10"
+dependencies = ["cryptography>=41"]
+
+[project.scripts]
+mailcheck = "mailcheck.cli:main"
+
+[tool.setuptools]
+packages = ["mailcheck"]
