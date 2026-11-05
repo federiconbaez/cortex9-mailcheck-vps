@@ -33,7 +33,7 @@ class FileResolver:
         self.queries: list[tuple[str, str]] = []
 
     @classmethod
-    def from_file(cls, path: str) -> "FileResolver":
+    def from_file(cls, path: str) -> FileResolver:
         with open(path, encoding="utf-8") as fh:
             return cls(json.load(fh))
 
@@ -75,8 +75,9 @@ class DigResolver:  # pragma: no cover - needs network, not run in tests
         cmd = ["dig", "+short", f"+time={self.timeout}", "+tries=1", name, rtype]
         if self.server:
             cmd.insert(1, "@" + self.server)
-        res = subprocess.run(cmd, capture_output=True, text=True, check=False)
-        return [l.strip() for l in res.stdout.splitlines() if l.strip() and not l.startswith(";")]
+        # argv list, no shell; the binary is the fixed string "dig" found via shutil.which.
+        res = subprocess.run(cmd, capture_output=True, text=True, check=False)  # noqa: S603
+        return [ln.strip() for ln in res.stdout.splitlines() if ln.strip() and not ln.startswith(";")]
 
     def txt(self, name):
         out = []

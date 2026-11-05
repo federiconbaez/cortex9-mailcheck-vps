@@ -5,7 +5,6 @@ RFC 2606 / RFC 5737 / RFC 3849 documentation values only; DNS is a JSON
 fixture, so no real query leaves the machine."""
 from __future__ import annotations
 
-import copy
 import json
 import os
 

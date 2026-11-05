@@ -4,7 +4,6 @@ connection to test outbound port 25."""
 from __future__ import annotations
 
 import base64
-import ipaddress
 import os
 import socket
 from dataclasses import asdict, dataclass, field
@@ -125,7 +124,8 @@ def check_dnsbl(ctx: Context) -> list[Finding]:
         hits = [a for a in ctx.resolver.a(f"{rev}.{zone}") if a.startswith("127.")]
         if hits:
             out.append(Finding("dnsbl", "FAIL", f"{ctx.ipv4} listed in {zone} ({', '.join(hits)})",
-                               "dnsbl_listed", f"Follow the delisting procedure of {zone} after fixing the source of spam"))
+                               "dnsbl_listed",
+                               f"Follow the delisting procedure of {zone} after fixing the source of spam"))
         else:
             out.append(Finding("dnsbl", "PASS", f"{ctx.ipv4} not listed in {zone}"))
     return out
