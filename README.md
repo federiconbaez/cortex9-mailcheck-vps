@@ -105,6 +105,15 @@ lectura y únicamente imprime los comandos de corrección).
   por la API pública el 2026-10-27):
   https://www.freelancer.com/projects/dns/Email-Deliverability-Specialist-for-VPS
 
+## Contribuir, reportar errores y seguridad
+
+*English version: [README.en.md](README.en.md).*
+
+- Errores y pedidos de mejora: <https://github.com/federiconbaez/cortex9-mailcheck-vps/issues>
+- Cómo contribuir (proceso de PR, requisitos y tests): [CONTRIBUTING.md](CONTRIBUTING.md)
+- Vulnerabilidades, por canal privado: [SECURITY.md](SECURITY.md)
+- Cambios por versión: [CHANGELOG.md](CHANGELOG.md)
+
 ## Licencia
 
 Apache-2.0. Ver `LICENSE`.
