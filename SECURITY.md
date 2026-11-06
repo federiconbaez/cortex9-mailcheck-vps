@@ -7,25 +7,23 @@ There are no older maintained branches.
 
 ## Reporting a vulnerability
 
-Please report vulnerabilities **privately** through GitHub private vulnerability
-reporting:
+**This repository currently has no channel for reporting vulnerabilities**: the issue
+tracker is disabled, GitHub private vulnerability reporting is not enabled, and the
+project does not publish an email address. This is a known gap. Until a channel is
+enabled:
 
-- Go to <https://github.com/federiconbaez/cortex9-mailcheck-vps/security/advisories/new>
-  (repository **Security** tab -> **Report a vulnerability**).
-- Include the affected commit or version, steps to reproduce, and the impact you expect.
+- Please do not publish exploit details about this tool.
+- A fix can be proposed as a pull request against `main` at <https://github.com/federiconbaez/cortex9-mailcheck-vps/pulls>; keep the
+  description to what the change does, without exploitation steps.
 
-Do **not** open a public issue, pull request or discussion for a suspected
-vulnerability. The report stays visible only to you and the maintainer until an
-advisory is published.
+This file will be updated when a reporting channel exists.
 
 ## What to expect
 
-- The maintainer aims to acknowledge every report within **14 days**.
-- If the report is confirmed, the fix is developed in a private fork of the
-  advisory, released, and the advisory is published with credit to the reporter
-  (unless they prefer to stay anonymous).
-- Release notes in [CHANGELOG.md](CHANGELOG.md) list every fixed vulnerability that
-  has a CVE, GHSA or RUSTSEC identifier.
+- No vulnerability report has been received so far.
+- Confirmed vulnerabilities are fixed on `main`, released with a new version, and
+  listed in the release notes in [CHANGELOG.md](CHANGELOG.md) with their CVE or GHSA
+  identifier when they have one.
 
 ## Scope
 

@@ -13,10 +13,12 @@ See [README.md](README.md) for usage.
 
 ## Reporting bugs and requesting features
 
-- Bugs and enhancement requests: open an issue at <https://github.com/federiconbaez/cortex9-mailcheck-vps/issues>.
-  Include the commit or version, your OS and toolchain version, the exact command,
-  and the output you got versus what you expected.
-- Security problems: do **not** open a public issue; follow [SECURITY.md](SECURITY.md).
+- The issue tracker of this repository is **currently disabled**, so bugs and
+  enhancement requests cannot be filed here yet. Fixes and improvements are welcome
+  as pull requests at <https://github.com/federiconbaez/cortex9-mailcheck-vps/pulls>;
+  describe the commit or version, your OS and Python version, the exact command, and
+  the output you got versus what you expected.
+- Security problems: follow [SECURITY.md](SECURITY.md) and do not post exploit details publicly.
 
 ## Contribution process
 

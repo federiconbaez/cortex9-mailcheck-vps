@@ -113,9 +113,9 @@ lectura y únicamente imprime los comandos de corrección).
 
 *English version: [README.en.md](README.en.md).*
 
-- Errores y pedidos de mejora: <https://github.com/federiconbaez/cortex9-mailcheck-vps/issues>
+- Errores y pedidos de mejora: los issues de este repo están **deshabilitados** por ahora; las correcciones se reciben como pull requests en <https://github.com/federiconbaez/cortex9-mailcheck-vps/pulls>
 - Cómo contribuir (proceso de PR, requisitos y tests): [CONTRIBUTING.md](CONTRIBUTING.md)
-- Vulnerabilidades, por canal privado: [SECURITY.md](SECURITY.md)
+- Reportar vulnerabilidades (todavía sin canal privado): [SECURITY.md](SECURITY.md)
 - Cambios por versión: [CHANGELOG.md](CHANGELOG.md)
 
 ## Licencia

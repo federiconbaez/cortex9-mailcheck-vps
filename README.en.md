@@ -87,9 +87,9 @@ fix commands).
 
 ## Contributing, bugs and security
 
-- Bugs and feature requests: <https://github.com/federiconbaez/cortex9-mailcheck-vps/issues>
+- Bugs and feature requests: issues are **currently disabled** in this repository; fixes are welcome as pull requests at <https://github.com/federiconbaez/cortex9-mailcheck-vps/pulls>
 - How to contribute: [CONTRIBUTING.md](CONTRIBUTING.md)
-- Vulnerabilities (private): [SECURITY.md](SECURITY.md)
+- Reporting vulnerabilities (no private channel yet): [SECURITY.md](SECURITY.md)
 - Changes per version: [CHANGELOG.md](CHANGELOG.md)
 
 ## License
