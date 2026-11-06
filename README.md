@@ -21,7 +21,7 @@ python -m mailcheck diagnose \
   --ipv4 192.0.2.10 --ipv6 2001:db8::10 \
   --probe mx.example.net:25          # opcional: prueba la salida al 25
 # --zone-file zona.json  -> DNS desde un archivo (sin red)
-# --dns-server <ip>      -> DNS real vía `dig` (no cubierto por los tests)
+# --dns-server <ip>      -> DNS real vía `dig` (sin consultas reales en los tests)
 # --json                 -> salida estructurada
 
 python -m mailcheck dkim-pub --key /etc/opendkim/keys/mail.private   # valor p= a publicar
@@ -59,10 +59,11 @@ python -m lab.measure
   correr: causa raíz correcta en >= 11/12 y 0 casos rotos marcados OK.
   **Resultado: 12/12, 0 falsos OK, control sano = OK.** Repetido 3 veces
   seguidas con claves DKIM nuevas en cada corrida: mismo resultado.
-- **Tests**: `python -m tests.run` corre 27 tests (parser de `main.cf` y
+- **Tests**: `python -m tests.run` corre 33 tests (parser de `main.cf` y
   `opendkim.conf`, evaluador SPF con include/redirect/límite de 10 lookups,
   DKIM coincide/no coincide/revocada/ilegible, alineación, DMARC, orden de
-  causas, CLI). Un test salteado cuenta como falla.
+  causas, CLI, y los argumentos que se le pasan a `dig`, incluidos nombres
+  que empiezan con `-` o `+`). Un test salteado cuenta como falla.
 - Todo es offline: el DNS del laboratorio es un archivo JSON, las claves se
   generan en un directorio temporal en cada corrida (no hay claves en el repo)
   y solo se usan nombres y direcciones de documentación (`example.com/.net`,
@@ -81,8 +82,11 @@ python -m lab.measure
 - **No se probó contra un servidor real** ni se midió el resultado de
   mail-tester después de aplicar las correcciones (la meta de >= 9/10 queda
   pendiente).
-- El backend de DNS real (`--dns-server`, vía `dig`) existe pero **no lo
-  ejercita ningún test**.
+- El backend de DNS real (`--dns-server`, vía `dig`) **no hace consultas reales
+  en ningún test**: los tests verifican con `subprocess` simulado que el nombre
+  va siempre detrás de `-q` (así un nombre que empieza con `-` o `+` no se lee
+  como opción), y un job de CI comprueba con el `dig` real que lo toma como
+  nombre. La resolución y el parseo de respuestas reales no están probados.
 - El chequeo de TLS solo verifica que los archivos existan y el nivel de
   seguridad configurado; no valida el certificado ni hace STARTTLS.
 - SPF: no implementa macros, `exists:` ni `ptr:` (devuelven `permerror`), ni el

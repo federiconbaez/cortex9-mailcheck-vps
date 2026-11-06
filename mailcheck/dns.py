@@ -1,8 +1,8 @@
 """DNS backends.
 
 FileResolver reads a JSON zone fixture (used by the lab and the tests: no
-network). DigResolver shells out to `dig +short` and is NOT exercised by the
-test suite.
+network). DigResolver shells out to `dig +short`; the tests check the argv it
+builds (with subprocess mocked) but never send a real query.
 """
 from __future__ import annotations
 
@@ -64,17 +64,24 @@ class FileResolver:
         return [host.rstrip(".").lower()] if host else []
 
 
-class DigResolver:  # pragma: no cover - needs network, not run in tests
+class DigResolver:
     def __init__(self, server: str | None = None, timeout: int = 3):
         if not shutil.which("dig"):
             raise RuntimeError("dig not found; install dnsutils/bind-tools")
         self.server = server
         self.timeout = timeout
 
-    def _q(self, name, rtype):
-        cmd = ["dig", "+short", f"+time={self.timeout}", "+tries=1", name, rtype]
+    def _argv(self, name: str, rtype: str) -> list[str]:
+        # The queried name comes from config/DNS data. Passing it with `-q` (and the
+        # type with `-t`) makes dig take it as a name even if it starts with "-" or
+        # "+", so it can never be read as an option such as `-f FILE` or `+tcp`.
+        cmd = ["dig", "+short", f"+time={int(self.timeout)}", "+tries=1"]
         if self.server:
-            cmd.insert(1, "@" + self.server)
+            cmd.append("@" + self.server)
+        return [*cmd, "-t", rtype, "-q", name]
+
+    def _q(self, name, rtype):
+        cmd = self._argv(name, rtype)
         # argv list, no shell; the binary is the fixed string "dig" found via shutil.which.
         res = subprocess.run(cmd, capture_output=True, text=True, check=False)  # noqa: S603
         return [ln.strip() for ln in res.stdout.splitlines() if ln.strip() and not ln.startswith(";")]

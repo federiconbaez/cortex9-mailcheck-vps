@@ -23,7 +23,7 @@ python -m mailcheck diagnose \
   --ipv4 192.0.2.10 --ipv6 2001:db8::10 \
   --probe mx.example.net:25          # optional: tests outbound port 25
 # --zone-file zone.json  -> DNS from a file (no network)
-# --dns-server <ip>      -> real DNS via `dig` (not covered by the tests)
+# --dns-server <ip>      -> real DNS via `dig` (no real queries in the tests)
 # --json                 -> structured output
 
 python -m mailcheck dkim-pub --key /etc/opendkim/keys/mail.private   # p= value to publish
@@ -49,10 +49,11 @@ python -m lab.measure
   plus a healthy control. Criterion fixed before running: correct root cause in
   >= 11/12 and 0 broken cases marked OK. **Result: 12/12, 0 false OK, healthy
   control = OK.** Repeated 3 times in a row with fresh DKIM keys each run: same result.
-- **Tests**: `python -m tests.run` runs 27 tests (`main.cf` and `opendkim.conf`
+- **Tests**: `python -m tests.run` runs 33 tests (`main.cf` and `opendkim.conf`
   parsers, SPF evaluator with include/redirect/10-lookup limit, DKIM
-  match/mismatch/revoked/unreadable, alignment, DMARC, cause ordering, CLI). A skipped
-  test counts as a failure.
+  match/mismatch/revoked/unreadable, alignment, DMARC, cause ordering, CLI, and the
+  arguments passed to `dig`, including names starting with `-` or `+`). A skipped test
+  counts as a failure.
 - Everything is offline: the lab DNS is a JSON file, keys are generated in a
   temporary directory on every run (no keys in the repository) and only
   documentation names and addresses are used. A test checks this on `lab/cases.py`.
@@ -67,7 +68,11 @@ python -m lab.measure
   DNS is simulated.
 - **Not tested against a real server**, and the mail-tester score after applying the
   fixes was not measured (the >= 9/10 goal is pending).
-- The real DNS backend (`--dns-server`, via `dig`) exists but **no test exercises it**.
+- The real DNS backend (`--dns-server`, via `dig`) **sends no real query in any test**:
+  the tests check, with `subprocess` mocked, that the name always follows `-q` (so a
+  name starting with `-` or `+` cannot be read as an option), and a CI job checks with
+  the real `dig` that it is taken as a name. Real resolution and parsing of real
+  answers are not tested.
 - The TLS check only verifies that the files exist and the configured security level;
   it does not validate the certificate or perform STARTTLS.
 - SPF: macros, `exists:` and `ptr:` are not implemented (they return `permerror`), nor

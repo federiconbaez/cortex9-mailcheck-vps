@@ -35,3 +35,19 @@ jobs:
         run: python -m tests.run
       - name: Lab measurement (12 broken configs + healthy control)
         run: python -m lab.measure
+
+  dig-q:
+    # Checks the dig behavior DigResolver relies on: with -q, a name starting with
+    # "-" or "+" is taken as a name, never as an option. No real lookup is needed:
+    # +qr prints the query as sent, before any answer (or timeout).
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install dig if missing
+        run: command -v dig || (sudo apt-get update && sudo apt-get install -y dnsutils)
+      - name: Names starting with - and + after -q are sent as names
+        run: |
+          for name in "-fexample" "+tcp"; do
+            out=$(dig +qr +time=1 +tries=1 @127.0.0.1 -t TXT -q "$name" 2>&1 || true)
+            echo "$out"
+            echo "$out" | grep -F -- ";${name}." || { echo "dig did not send $name as the query name"; exit 1; }
+          done
