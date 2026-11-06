@@ -33,7 +33,7 @@ Run these before opening a pull request (the same commands run in CI, on Python
 3.10, 3.12 and 3.13):
 
 ```sh
-pip install "cryptography>=41" "ruff==0.17.3"
+pip install "cryptography>=50.0.0" "ruff==0.17.3"
 ruff check .                # lint + security rules, config in pyproject.toml
 python -m tests.run         # the whole suite; a skipped test fails the run
 python -m lab.measure       # 12 broken configs + healthy control must still pass

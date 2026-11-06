@@ -14,7 +14,7 @@ comando o el registro DNS exacto para corregirlas.
 ## Uso
 
 ```sh
-pip install "cryptography>=41"
+pip install "cryptography>=50.0.0"
 python -m mailcheck diagnose \
   --main-cf /etc/postfix/main.cf \
   --opendkim-conf /etc/opendkim.conf \
